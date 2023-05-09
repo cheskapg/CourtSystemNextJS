@@ -18,6 +18,7 @@ function App() {
   const [dateVal, setDate] = useState("");
   const [timeVal, setTime] = useState("8am-9am");
   const [client, setClient] = useState([]);
+
   const [newPhone, setNewPhone] = useState(phoneVal);
   const [open, setOpen] = useState(false);
 
@@ -30,14 +31,26 @@ function App() {
     setOpen(false);
     window.location.reload();
   };
+  const style = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 400,
+    bgcolor: "background.paper",
+    border: "2px solid #000",
+    boxShadow: 24,
+    p: 4,
+  };
 
+  // load courtbooking on page refresh or open
   useEffect(() => {
     Axios.get("http://localhost:3001/api/getbooking").then((response) => {
       console.log(response);
       setClientList(response.data);
     });
   }, []);
-
+  //  delete booking pass value of name to nameDel to delete the desired row where name=nameDel
   const deleteBooking = (nameDel) => {
     Axios.delete(`http://localhost:3001/api/deleteBooking/${nameDel}`).then(
       (res) => {
@@ -45,8 +58,10 @@ function App() {
       }
     );
     alert("booking deleted");
+    // reload page to see changes
     window.location.reload();
   };
+  //  update booking pass value of name to clientNew to update the desired row where name=nameDel
 
   const updateClient = (clientNew) => {
     setAddress(addressVal);
@@ -61,15 +76,18 @@ function App() {
       bookedTime: timeVal,
     }).then(() => {
       alert("booking updated");
-      window.location.reload();
     });
   };
+
+  // getclient to fill update modal forms
 
   const getClient = (client) => {
     Axios.get(`http://localhost:3001/api/getClient/${client}`).then((res) => {
       console.log(res.data);
+      // set data as only one client selected
       setClient(res.data);
 
+      // set values of forms to existing client data so it will stay in the database if unchanged text
       setName(res.data[0].name);
       setAddress(res.data[0].address);
       setPhone(res.data[0].phone);
@@ -78,15 +96,18 @@ function App() {
       setTime(res.data[0].time);
     });
   };
-
+  //  close modal and show alert after changes saved
   const saveChanges = () => {
-    setOpen(false);
+    
     window.location.reload();
+
   };
 
   return (
     <div className="ViewBooking mx-auto">
-      <h1 className="my-5 text-lg font-bold text-center">Client Booking List</h1>
+      <h1 className="my-5 text-lg font-bold text-center">
+        Client Booking List
+      </h1>
       <div className="grid grid-cols-1 gap-4 text-black lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1">
         {clientList.map((val) => (
           <div
@@ -129,102 +150,103 @@ function App() {
         ))}
       </div>
       {client.map((val) => (
-        <Dialog key={val.name} open={open} onClose    ={handleClose}>
-        <DialogTitle>Update Client: {val.name}</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            <div className="form mb-2">
-              <label className="font-medium">Name</label>
-              <input
-                type="text"
-                name="nameVal"
-                defaultValue={val.name}
-                onChange={(e) => setName(e.target.value)}
-                className="form-input w-full mt-1 rounded-md border-gray-300"
-              />
-            </div>
-            <div className="form mb-2">
-              <label className="font-medium">Phone Number</label>
-              <input
-                type="text"
-                name="phoneVal"
-                defaultValue={val.phone}
-                onChange={(e) => setPhone(e.target.value)}
-                className="form-input w-full mt-1 rounded-md border-gray-300"
-              />
-            </div>
-            <div className="form mb-2">
-              <label className="font-medium">Address</label>
-              <input
-                type="text"
-                name="addressVal"
-                defaultValue={val.address}
-                onChange={(e) => setAddress(e.target.value)}
-                className="form-input w-full mt-1 rounded-md border-gray-300"
-              />
-            </div>
-            <div className="form mb-2">
-              <label className="font-medium">Court Number</label>
-              <select
-                name="courtVal"
-                defaultValue={val.court}
-                onChange={(e) => setCourt(e.target.value)}
-                className="form-select w-full mt-1 rounded-md border-gray-300"
-              >
-                <option value="1">Court 1</option>
-                <option value="2">Court 2</option>
-                <option value="3">Court 3</option>
-              </select>
-            </div>
-            <div className="form mb-2">
-              <label className="font-medium">Booking Date</label>
-              <input
-                type="date"
-                name="dateVal"
-                defaultValue={val.date}
-                onChange={(e) => setDate(e.target.value)}
-                className="form-input w-full mt-1 rounded-md border-gray-300"
-              />
-            </div>
-            <div className="form mb-2">
-              <label className="font-medium">Booking Time</label>
-              <select
-                name="timeVal"
-                defaultValue={val.time}
-                onChange={(e) => setTime(e.target.value)}
-                className="form-select w-full mt-1 rounded-md border-gray-300"
-              >
-                <option value="8am-9am">8am-9am</option>
-                <option value="10am-11am">10am-11am</option>
-                <option value="2pm-3pm">2pm-3pm</option>
-              </select>
-            </div>
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions className="my-2">
-          <Button
-            onClick={saveChanges}
-            variant="contained"
-            color="primary"
-            className="px-4 py-2"
-          >
-            Save Changes
-          </Button>
-          <Button
-            onClick={handleClose}
-            variant="outlined"
-            color="secondary"
-            className="px-4 py-2 ml-2"
-          >
-            Cancel
-          </Button>
-        </DialogActions>
-      </Dialog>
-    ))}
-  </div>
+        <Dialog key={val.name} open={open} onClose={handleClose}>
+          <DialogTitle>Update Client: {val.name}</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              <div className="form mb-2">
+                <label className="font-medium">Name</label>
+                <input
+                  type="text"
+                  name="nameVal"
+                  defaultValue={val.name}
+                  onChange={(e) => setName(e.target.value)}
+                  className="form-input w-full mt-1 rounded-md border-gray-300"
+                />
+              </div>
+              <div className="form mb-2">
+                <label className="font-medium">Phone Number</label>
+                <input
+                  type="text"
+                  name="phoneVal"
+                  defaultValue={val.phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  className="form-input w-full mt-1 rounded-md border-gray-300"
+                />
+              </div>
+              <div className="form mb-2">
+                <label className="font-medium">Address</label>
+                <input
+                  type="text"
+                  name="addressVal"
+                  defaultValue={val.address}
+                  onChange={(e) => setAddress(e.target.value)}
+                  className="form-input w-full mt-1 rounded-md border-gray-300"
+                />
+              </div>
+              <div className="form mb-2">
+                <label className="font-medium">Court Number</label>
+                <select
+                  name="courtVal"
+                  defaultValue={val.court}
+                  onChange={(e) => setCourt(e.target.value)}
+                  className="form-select w-full mt-1 rounded-md border-gray-300"
+                >
+                  <option value="1">Court 1</option>
+                  <option value="2">Court 2</option>
+                  <option value="3">Court 3</option>
+                </select>
+              </div>
+              <div className="form mb-2">
+                <label className="font-medium">Booking Date</label>
+                <input
+                  type="date"
+                  name="dateVal"
+                  defaultValue={val.date}
+                  onChange={(e) => setDate(e.target.value)}
+                  className="form-input w-full mt-1 rounded-md border-gray-300"
+                />
+              </div>
+              <div className="form mb-2">
+                <label className="font-medium">Booking Time</label>
+                <select
+                  name="timeVal"
+                  defaultValue={val.time}
+                  onChange={(e) => setTime(e.target.value)}
+                  className="form-select w-full mt-1 rounded-md border-gray-300"
+                >
+                  <option value="8am-9am">8am-9am</option>
+                  <option value="10am-11am">10am-11am</option>
+                  <option value="2pm-3pm">2pm-3pm</option>
+                </select>
+              </div>
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions className="my-2">
+            <Button
+             onClick={() => {
+              updateClient(val.name);
+              saveChanges();
+            }}
+              variant="contained"
+              color="primary"
+              className="px-4 py-2"
+            >
+              Save Changes
+            </Button>
+            <Button
+              onClick={handleClose}
+              variant="outlined"
+              color="secondary"
+              className="px-4 py-2 ml-2"
+            >
+              Cancel
+            </Button>
+          </DialogActions>
+        </Dialog>
+      ))}
+    </div>
   );
-  }
-  
-  export default App;
-  
-  
+}
+
+export default App;
