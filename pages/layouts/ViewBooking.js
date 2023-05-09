@@ -75,7 +75,7 @@ function App() {
       bookedDate: dateVal,
       bookedTime: timeVal,
     }).then(() => {
-      alert("booking updated");
+
     });
   };
 
@@ -98,7 +98,7 @@ function App() {
   };
   //  close modal and show alert after changes saved
   const saveChanges = () => {
-    
+    setOpen(false);
     window.location.reload();
 
   };
