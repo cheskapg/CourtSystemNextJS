@@ -16,6 +16,10 @@ yarn dev
 pnpm dev
 ```
 
+https://github.com/cheskapg/CourtSystemNextJS/assets/90952873/00654434-b91a-4093-b4ba-edddb040b3d2
+
+
+
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
