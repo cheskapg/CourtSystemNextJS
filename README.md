@@ -2,8 +2,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
-
-https://github.com/cheskapg/CourtSystemNextJS/assets/90952873/3f002c69-e8be-4852-a849-8cc29a3c8454
+https://github.com/cheskapg/CourtSystemNextJS/assets/90952873/00654434-b91a-4093-b4ba-edddb040b3d2
 
 
 First, run the development server:
@@ -15,8 +14,6 @@ yarn dev
 # or
 pnpm dev
 ```
-
-https://github.com/cheskapg/CourtSystemNextJS/assets/90952873/00654434-b91a-4093-b4ba-edddb040b3d2
 
 
 
