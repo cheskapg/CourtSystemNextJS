@@ -8,7 +8,7 @@ function App() {
     <div className="fixed-bottom">
   
       <h6>
-      <NewlineText text={'Francheska Palma Gil\nADV 102'} />
+      <NewlineText text={'Francheska Palma Gil\n'} />
         </h6>
     </div>
   );
